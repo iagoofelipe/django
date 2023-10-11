@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    ---primary-color: rgb(64, 82, 119);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+#pop-up {
+    position: fixed;
+    top: 20px;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+#pop-up p {
+    color: white;
+    background-color: rgb(38, 26, 104);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.container-left, .container-right {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-right {
+    background-color: rgb(132, 164, 224);
+}
+
+.container-right img {
+    width: 95%;
+    height: 95%;
+}
+
+.container-login {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    background-color: var(---primary-color);
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.322);
+    padding: 15px 20px;
+    width: 60%;
+    /* height: 60%; */
+    height: 420px;
+    justify-content: space-evenly;
+    transition-duration: .5s;
+}
+
+.input-texto {
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 80px;
+    transition-duration: .5s;
+}
+
+.input-texto:hover, .btn-login:hover {
+    background-color: rgb(169, 179, 199);
+    transform: translateY(-10px);
+}
+
+.input-texto[placeholder]{
+    text-align: center;
+}
+
+.container-checkbox {
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+}
+
+.btn-login {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    transition-duration: .5s;
+}
+
+@media only screen and (max-width: 500px) {
+    .container-login {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    body {
+        justify-content: center;
+    }
+    
+    .container-right {
+        display: none;
+    }
+
+    .container-left {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
