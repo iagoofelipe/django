@@ -44,43 +44,41 @@
             <div id="container-option" style="background-color: blanchedalmond; width: 100%; height: 500px;"></div>
             <div id="container-acessos">
                 <div class="card card-cad-user">
-                    <h1 class="element-title">Cadastrar usuário</h1>
+                    <h1 class="element-title">cadastrar usuário</h1>
                     <form id="form-cadastrar" action="javascript: cadastrarUsuario();">
                         {% csrf_token %}
                         <table class="card-element">
-                            <tr><td>nível de acesso *</td></tr>
+                            <!-- <tr><td>nível de acesso *</td></tr> -->
                             <tr><td colspan="2">
-                                <select name="acesso" class="table-input table-input-text">
+                                <select title="nível de acesso" name="acesso" class="table-input table-input-text">
                                     {% for acesso in acessos %}
                                     <option>{{acesso}}</option>
                                     {% endfor %}
                                 </select>
                             </td></tr>
-                            <tr><td>cargo *</td></tr>
-                            <tr><td colspan="2"><input id="in-cargo" type="text" class="table-input table-input-text" name="cargo" maxlength="100"></td></tr>
-                            <tr><td>nome completo *</td></tr>
-                            <tr><td colspan="2"><input id="in-fullname" type="text" class="table-input table-input-text" name="fullname" maxlength="100"></td></tr>
+                            <!-- <tr><td>cargo *</td></tr> -->
+                            <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" class="table-input table-input-text" name="cargo" maxlength="100"></td></tr>
+                            <!-- <tr><td>nome completo *</td></tr> -->
+                            <tr><td colspan="2"><input placeholder="*nome completo" id="in-fullname" type="text" class="table-input table-input-text" name="fullname" maxlength="100"></td></tr>
                             <tr>
-                                <td>senha *</td>
-                                <td>cofirme a senha *</td>
+                                <!-- <td>senha *</td> -->
+                                <!-- <td>cofirme a senha *</td> -->
                             </tr>
                             <tr>
-                                <td><input type="password" id="in-password" name="password" class="table-input table-input-text" maxlength="100"></td>
-                                <td><input type="password" id="in-password-confirm" name="password-confirm" class="table-input table-input-text" maxlength="100"></td>
+                                <td><input placeholder="*senha" type="password" id="in-password" name="password" class="table-input table-input-text" maxlength="100"></td>
+                                <td><input placeholder="*senha (confirmação)" type="password" id="in-password-confirm" name="password-confirm" class="table-input table-input-text" maxlength="100"></td>
                             </tr>
-                            <tr><td>nome de usuário *</td></tr>
-                            <tr><td colspan="2"><input type="text" id="in-username" class="table-input table-input-text" name="username"  maxlength="100"></td></tr>
-                            <tr><td>CPF</td></tr>
-                            <tr><td colspan="2"><input type="number" id="in-cpf" class="table-input table-input-text" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
-                            <tr><td>e-mail</td></tr>
-                            <tr><td colspan="2"><input type="text" id="in-email" class="table-input table-input-text" name="email" maxlength="30"></td></tr>
-                            <tr><td>telefone</td></tr>
-                            <tr><td colspan="2"><input type="number" id="in-telefone" class="table-input table-input-text" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
-                            <tr><td>data de nascimento</td></tr>
-                            <tr><td colspan="2"><input type="date" id="in-nascimento" class="table-input table-input-text" name="nascimento"></td></tr>
-                            <tr>
-                                <td colspan="2"><input type="submit" value="cadastrar" id="form-cadastrar-btn-submit" class="table-input" ></td>
-                            </tr>
+                            <!-- <tr><td>nome de usuário *</td></tr> -->
+                            <tr><td colspan="2"><input  placeholder="*nome de usuário" type="text" id="in-username" class="table-input table-input-text" name="username"  maxlength="100"></td></tr>
+                            <!-- <tr><td>CPF</td></tr> -->
+                            <tr><td colspan="2"><input placeholder="cpf" type="number" id="in-cpf" class="table-input table-input-text" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
+                            <!-- <tr><td>e-mail</td></tr> -->
+                            <tr><td colspan="2"><input  placeholder="e-mail" type="text" id="in-email" class="table-input table-input-text" name="email" maxlength="30"></td></tr>
+                            <!-- <tr><td>telefone</td></tr> -->
+                            <tr><td colspan="2"><input placeholder="telefone" type="number" id="in-telefone" class="table-input table-input-text" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
+                            <!-- <tr><td>data de nascimento</td></tr> -->
+                            <tr><td colspan="2"><input title="data de nascimento" type="date" id="in-nascimento" class="table-input table-input-text" name="nascimento"></td></tr>
+                            <tr><td colspan="2"><input type="submit" value="cadastrar" id="form-cadastrar-btn-submit" class="table-input" ></td></tr>
                         </table>
                     </form>
                 </div>
