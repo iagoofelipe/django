@@ -22,13 +22,14 @@
     <div class="container-left">
         <form id="form" class="container-login" action="" method="POST">{% csrf_token %}
             <h1>UNIT</h1>
-            <input class="input-texto" type="text" name="user" placeholder="usuário">
+            <input class="input-texto" type="text" name="username" placeholder="usuário">
             <input class="input-texto" type="password" name="password" placeholder="senha">
             <div class="container-checkbox">
                 <input class="input-checkbox" type="checkbox" name="remember" id="remember">
                 <label class="texto-checkbox" for="remember">lembrar de mim</label>
             </div>
-            <input class="btn-login" type="submit" value="login">
+            <input class="btn-login" type="button" onclick="validate()" value="login">
+            <input type="submit" id="btn-submit-form">
         </form>
     </div>
     <div class="container-right">

@@ -114,7 +114,8 @@ body {
     }
 
     .container-left {
-        width: 80%;
+        background-color: rgb(132, 164, 224);
+        width: 100%;
         margin: 0 auto;
     }
 }
