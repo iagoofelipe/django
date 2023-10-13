@@ -6,14 +6,14 @@ $(function(){
 function callPopup(msg){
     $('#pop-up p').text(msg);
     $('#pop-up').fadeIn();
-    window.setTimeout(function(){$('#pop-up').fadeOut()}, 5000)
+    window.setTimeout(function(){$('#pop-up').fadeOut()}, 5000);
 }
 
 function validate(){
-    var form = document.getElementById('form');
-    var user = form['username'].value;
-    var password = form['password'].value;
-    var token = form['csrfmiddlewaretoken'].value;
+    let form = document.getElementById('form');
+    let user = form['username'].value;
+    let password = form['password'].value;
+    let token = form['csrfmiddlewaretoken'].value;
     
     if(user == "" || password == ""){
         callPopup("campos usuário e senha são obrigatórios!");

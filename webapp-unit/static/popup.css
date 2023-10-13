@@ -1,0 +1,15 @@
+#pop-up {
+    position: fixed;
+    top: 20px;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+#pop-up p {
+    color: white;
+    background-color: rgb(38, 26, 104);
+    padding: 10px 20px;
+    border-radius: 10px;
+}

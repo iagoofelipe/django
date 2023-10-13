@@ -9,6 +9,7 @@
     --background-element-color: #e9e9f5;
     --primary-color: #2c55d4;
     --width-border: 15px;
+    --background-color-hover: #1e398b;
 }
 
 * {
@@ -26,6 +27,22 @@ body {
     padding: var(--width-border);
     height: 100vh;
     width: 100vw;
+}
+
+#pop-up {
+    position: fixed;
+    top: 20px;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+#pop-up p {
+    color: white;
+    background-color: rgb(38, 26, 104);
+    padding: 10px 20px;
+    border-radius: 10px;
 }
 
 /*-main-header------------------------------------------*/
@@ -94,21 +111,80 @@ body {
 /*-container-main---------------------------------------*/
 /*-container-acessos------------------------------------*/
 /* inspiration https://dribbble.com/shots/18777195--DailyUI-Tela-de-Cadastro-para-plano-de-sa-de */
-.cadastrar-usuario {
+#container-acessos {
+    display: flex;
+    justify-content: space-between;
+}
+
+.element-title {
+    font-size: 11pt;
+}
+
+#container-acessos .card {
     background-color: var(--background-element-color);
     padding: 10px;
-    width: fit-content;
-    /* display: flex;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    height: 800px; */
+    justify-content: center;
 }
 
-.cadastrar-usuario h1 {
-    font-size: 13pt;
+#container-acessos .card h1 {
+    padding-bottom: 5px;
+    border-bottom: .5px solid var(--secondary-font-color);
+    text-align: center;
 }
 
-.container-acessos .td-item {
-    column-span: 2;
+#container-acessos .card-cad-user {
+    width: 40%;
+}
+
+#container-acessos .card .card-element {
+    width: 100%;
+}
+
+#container-acessos .table-input {
+    transition-duration: .2s;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+#container-acessos .table-input-text:hover {
+    background-color: #f0f0f0;
+}
+
+#container-acessos .table-input-text:focus {
+    background-color: #f0f0f0;
+    border: none;
+}
+
+#form-cadastrar-btn-submit {
+    padding: 10px 0;
+    /* width: 80%; */
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    /* background-color: white; */
+}
+
+#form-cadastrar-btn-submit:hover {
+    background-color: var(--background-color-hover);
+}
+
+#container-acessos .card-cadastrados {
+    width: 58%;
+}
+
+#tab-cadastrados tr {
+    text-align: center;
+}
+
+#tab-cadastrados tr:hover * {
+    transition-duration: .2s;
+    background-color: var(--primary-color);
+    color: white;
 }
 /*-container-acessos------------------------------------*/
