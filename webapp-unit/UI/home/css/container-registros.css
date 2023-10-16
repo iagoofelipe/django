@@ -1,0 +1,18 @@
+#container-registros .card-info {
+    width: 31%;
+}
+
+#container-registros select {
+    border: none;
+}
+
+#table-reg {
+    margin-top: 10px;
+}
+
+#container-registros .div-select {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: 100%;
+}

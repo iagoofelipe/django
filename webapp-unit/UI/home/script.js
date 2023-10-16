@@ -17,22 +17,8 @@ $(function(){
             $(`#container-${itemName}`).css('display', 'none');
         });
 
-    // navItemClick(containers[0], false);
-    navItemClick('container-acessos', false);
-
-    // inserindo dados de formulário form-reg
-    let old = $('#form-reg').html();
-    let padrao = {type:'text', name:'{}', id:'in-reg-{}',placeholder:'{}', title:'{}'};
-    let valores = {};
-
-    for(tipo in ['categoria','data','valor','descricao']){
-        for(input in ['type','placeholder','title']){
-            if(!(input in valores[tipo])){
-
-            }
-        }
-        '<input type="text" name="categoria" id="in-reg-categoria" placeholder="categoria" title="categoria">'
-    }
+        // navItemClick(containers[0], false);
+        navItemClick('container-registros', false);
 });
 
 function callPopup(msg){

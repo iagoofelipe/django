@@ -1,17 +1,19 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unit - Home</title>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js">
+        // $.post('/login/cadastro', {}, 'json')
+    </script>
     <script src="{% static 'home/js/script.js' %}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 </head>
 <body>
@@ -26,7 +28,7 @@
             </div>
             <ul id="nav-items">
                 <li id="item-dashboard" class="nav-item" onclick="navItemClick(this)">dashboard</li>
-                <li id="item-registros" class="nav-item" onclick="navItemClick(this)">registros</li>
+                <li id="item-option" class="nav-item" onclick="navItemClick(this)">option</li>
                 <li id="item-acessos" class="nav-item" onclick="navItemClick(this)">acessos</li>
             </ul>
             <div id="container-nav-right">
@@ -39,93 +41,67 @@
             </div>
         </header>
         <main class="container-main">
-            <div id="container-registros">
-                <div class="cards-info">
-                    <div class="card card-info" id="card-saidas">
-                        <p class="title">total</p>
-                        <h1 class="value">R$: 3.500,00</h1>
-                        <p class="description">entradas e saídas</p>
-                    </div>
-                    <div class="card card-info" id="card-total">
-                        <p class="title">entradas</p>
-                        <h1 class="value">R$: 13.000,00</h1>
-                        <p class="description">10 registros</p>
-                    </div>
-                    <div class="card card-info" id="card-entradas">
-                        <p class="title">saídas</p>
-                        <h1 class="value">R$: 9.500,00</h1>
-                        <p class="description">35 registros feitos</p>
-                    </div>
-                </div>
-                <div class="div-select">
-                    <select name="select-typeRegistro" title="tipo de registro">
-                        <option value="entradas">entradas</option>
-                        <option value="saidas">saídas</option>
-                    </select>
-                    <a href="#card-new-reg"><i class="bi bi-plus" style="font-size: 15pt;"></i></a>
-                    <i class="bi bi-pencil" style="font-size: 10pt;"></i>
-                </div>
-                <table class="card-table" id="table-reg" cellspacing="0">
-                    <tr class="card-table-thead">
-                        <td></td>
-                        <td>categoria</td>
-                        <td>data pagamento</td>
-                        <td>valor (R$)</td>
-                        <td>descrição</td>
-                        <td></td>
-                    </tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                    <tfoot>
-                        <td colspan="99">
-                            <i class="bi bi-arrow-left-short"></i>
-                            1 a 10
-                            <i class="bi bi-arrow-right-short"></i>
-                        </td>
-                    </tfoot>
-                </table>
-                <div class="card" id="card-new-reg">
-                    <h1 class="element-title">novo registro</h1>
-                    <form action="" method="post" id="form-reg" class="card-form">
-                    <!-- inserido via JS -->
-                    {% csrf_token %}
-                    <input type="submit" value="salvar">
-                    </form>
-                </div>
-            </div>
+            <div id="container-dashboard" style="background-color: red; width: 100%; height: 500px;"></div>
+            <div id="container-option" style="background-color: blanchedalmond; width: 100%; height: 500px;"></div>
             <div id="container-acessos">
                 <div class="card card-cad-user">
                     <h1 class="element-title">cadastrar usuário</h1>
                     <form id="form-cadastrar" action="javascript: cadastrarUsuario();">
                         {% csrf_token %}
                         <table class="card-element">
+                            <!-- <tr><td>nível de acesso *</td></tr> -->
                             <tr><td colspan="2">
                                 <select title="nível de acesso" name="acesso" class="table-input table-input-text">
                                     {% for acesso in acessos %}
                                     <option>{{acesso}}</option>
                                     {% endfor %}
-                                    <option>opção</option>
                                 </select>
                             </td></tr>
+                            <!-- <tr><td>cargo *</td></tr> -->
                             <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" class="table-input table-input-text" name="cargo" maxlength="100"></td></tr>
+                            <!-- <tr><td>nome completo *</td></tr> -->
                             <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" id="in-fullname" type="text" class="table-input table-input-text" name="fullname" maxlength="100"></td></tr>
+                            <tr>
+                                <!-- <td>senha *</td> -->
+                                <!-- <td>cofirme a senha *</td> -->
+                            </tr>
                             <tr>
                                 <td><input title="senha" placeholder="*senha" type="password" id="in-password" name="password" class="table-input table-input-text" maxlength="100"></td>
                                 <td><input title="confirmação da senha" placeholder="*senha (confirmação)" type="password" id="in-password-confirm" name="password-confirm" class="table-input table-input-text" maxlength="100"></td>
                             </tr>
+                            <!-- <tr><td>nome de usuário *</td></tr> -->
                             <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" type="text" id="in-username" class="table-input table-input-text" name="username"  maxlength="100"></td></tr>
+                            <!-- <tr><td>CPF</td></tr> -->
                             <tr><td colspan="2"><input title="CPF" placeholder="CPF" type="number" id="in-cpf" class="table-input table-input-text" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
+                            <!-- <tr><td>e-mail</td></tr> -->
                             <tr><td colspan="2"><input title="e-mail" placeholder="e-mail" type="text" id="in-email" class="table-input table-input-text" name="email" maxlength="30"></td></tr>
+                            <!-- <tr><td>telefone</td></tr> -->
                             <tr><td colspan="2"><input title="telefone" placeholder="telefone" type="number" id="in-telefone" class="table-input table-input-text" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
+                            <!-- <tr><td>data de nascimento</td></tr> -->
                             <tr><td colspan="2"><input title="data de nascimento" type="date" id="in-nascimento" class="table-input table-input-text" name="nascimento"></td></tr>
                             <tr><td colspan="2"><input type="submit" value="cadastrar" id="form-cadastrar-btn-submit" class="table-input" ></td></tr>
                         </table>
                     </form>
+                </div>
+                <div class="card card-cadastrados" style="display: none;">
+                    <h1 class="element-title">Editar usuário</h1>
+                    <table id="tab-cadastrados">
+                        <tbody>
+
+                        </tbody>
+                        <tr> 
+                            {% for i in tableHeader %}
+                            <td>{{i}}</td>
+                            {% endfor %}
+                        </tr>
+                        {% for usuario in usuarios %}
+                        <tr> 
+                            <td>{{usuario.fullname}}</td>
+                            <td>{{usuario.cargo}}</td>
+                            <td>{{usuario.acesso}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
                 <div class="card card-cadastrados">
                     <h1 class="element-title">usuários cadastrados</h1>
