@@ -18,21 +18,8 @@ $(function(){
         });
 
     // navItemClick(containers[0], false);
-    navItemClick('container-acessos', false);
-
-    // inserindo dados de formulário form-reg
-    let old = $('#form-reg').html();
-    let padrao = {type:'text', name:'{}', id:'in-reg-{}',placeholder:'{}', title:'{}'};
-    let valores = {};
-
-    for(tipo in ['categoria','data','valor','descricao']){
-        for(input in ['type','placeholder','title']){
-            if(!(input in valores[tipo])){
-
-            }
-        }
-        '<input type="text" name="categoria" id="in-reg-categoria" placeholder="categoria" title="categoria">'
-    }
+    navItemClick('container-registros', false);
+    setTabRegValues();
 });
 
 function callPopup(msg){
@@ -113,5 +100,58 @@ function cadastrarUsuario(){
         if('usuário cadastrado com sucesso!' == r){
             form.reset();
         }
+    })
+}
+
+function submitNewReg(){
+    // enviar request
+    let form = document.getElementById('form-reg');
+    let type = form.typeRegistro.value;
+    let data = {
+        'csrfmiddlewaretoken': form['csrfmiddlewaretoken'].value,
+        'typeRegistro': form.typeRegistro.value,
+        'categoria': form.categoria.value,
+        'data': form.data.value,
+        'valor': form.valor.value,
+        'descricao': form.descricao.value,
+    }
+
+    $.post('form_new_registro', data).done(function(r){
+        if('200' == r){
+            form.reset();
+            callPopup("Registro salvo com êxito!");
+            setTabRegValues();
+            return
+        }
+
+        callPopup("ResponseCode: "+r);
+    })
+}
+
+function setTabRegValues(){
+    let type = document.getElementById('select-typeRegistro').value;
+    let table = document.getElementById('table-reg-body');
+
+    $.get("tabRegValues", {'type':type, 'returnType':''}).done(
+        function(response){
+            response = JSON.parse(response).reverse();
+            console.log(response);
+            let html = "";
+
+            for(i in response){
+                let row = response[i];
+                html += `<tr><td></td><td hidden>${row.id}</td> <td>${row.categoria}</td><td>${row.data}</td><td>${row.valor}</td><td>${row.descricao}</td><td><i class="bi bi-trash"></i></td></tr>`
+            }
+            table.innerHTML = html;
+            // let j_row = JSON.parse(response);
+            // console.log(j_row);
+            // for(row in response){
+            // }
+            
+            // response = "id,categoria,data,valor,descricao";
+
+            // response.split(',');
+            // j_response = JSON.parse(response);
+            // `<tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>`
     })
 }

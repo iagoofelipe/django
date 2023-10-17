@@ -1,0 +1,8 @@
+-- database: c:\git\django\git\webapp-unit\db.sqlite3
+
+-- Pressione o botão ▷ no canto superior direito da janela para executar todo o arquivo.
+
+INSERT INTO "home_acessos" ("id", "nome") VALUES (0, "full");
+INSERT INTO "home_acessos" ("id", "nome") VALUES (1, "basic");
+
+SELECT * FROM "home_acessos";

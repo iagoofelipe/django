@@ -59,3 +59,17 @@ class Turma(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True)
     nome = models.CharField(max_length=30)
     alunos = models.ForeignKey(Estudante, on_delete=models.SET_NULL, null=True)
+
+class Entradas(models.Model):
+    categoria = models.CharField(max_length=100)
+    data = models.DateField(auto_now=True)
+    valor = models.DecimalField(decimal_places=2, max_digits=10, default=0)
+    descricao = models.CharField(max_length=255, null=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+
+class Saidas(models.Model):
+    categoria = models.CharField(max_length=100)
+    data = models.DateField(auto_now=True)
+    valor = models.DecimalField(decimal_places=2, max_digits=10, default=0)
+    descricao = models.CharField(max_length=255, null=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
