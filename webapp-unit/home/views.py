@@ -21,8 +21,10 @@ def index(request):
         fullname = 'Usuário'
         cargo = 'cargo'
 
-    acessos = tuple(map(lambda i: i.nome, Acessos.objects.all()))
-    return render(request, 'home.html', {'user':fullname, 'cargo':cargo, 'acessos':acessos})
+    acessos = set(map(lambda i: i.nome, Acessos.objects.all()))
+    values = _regCardValues()
+
+    return render(request, 'home.html', {'user':fullname, 'cargo':cargo, 'acessos':acessos, 'values':values})
 
 @login_required(login_url='/login/')
 def form_new_registro(request):
@@ -61,12 +63,6 @@ def tabRegValues(request):
     except ValueError:
         values = model.objects.all()[:10]
 
-    if returnType == 'html':
-        value = ''
-        for row in values:
-            value += f"<tr><td>{row.categoria}</td><td>{row.data}</td><td>{row.valor}</td><td>{row.descricao}</td></tr>"    
-        return HttpResponse(value)
-
     value = '['
     for row in values:
         data = row.data.strftime('%d/%m/%Y')
@@ -77,3 +73,29 @@ def tabRegValues(request):
     value += ']'
     '[{"key":"content"}, {"key":"content"}]'
     return HttpResponse(value)
+
+@login_required(login_url='/login/')
+def regCardValues(request):
+    values = str(_regCardValues()).replace("'",'"')
+    return HttpResponse(values)
+
+def _regCardValues():
+    total_entradas, total_saidas = 0, 0
+    contagem_entradas = Entradas.objects.count()
+    contagem_saidas = Saidas.objects.count()
+
+    for i in Entradas.objects.all():
+        total_entradas += i.valor
+
+    for i in Saidas.objects.all():
+        total_saidas += i.valor
+
+    values = {
+        'contagem_entradas':contagem_entradas, 
+        'contagem_saidas':contagem_saidas, 
+        'total_entradas':str(total_entradas), 
+        'total_saidas':str(total_saidas),
+        'total': str(total_entradas + total_saidas),
+    }
+
+    return values

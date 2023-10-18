@@ -1,11 +1,16 @@
+import Registros from "./registros.js";
+
 // definindo último container exibido
 var lastContainerName = null;
 var lastItemId = null;
 var containers = [];
 var navItems = [];
+var i = null;
+var reg = null;
 
 $(function(){
     $('#pop-up').css({'display':'none'});
+    reg = new Registros();
 
     let containerName = null;
     document.getElementById('nav-items').querySelectorAll('.nav-item')
@@ -16,10 +21,11 @@ $(function(){
             
             $(`#container-${itemName}`).css('display', 'none');
         });
-
+        
     // navItemClick(containers[0], false);
     navItemClick('container-registros', false);
     setTabRegValues();
+    setRegCardValues();
 });
 
 function callPopup(msg){
@@ -121,6 +127,7 @@ function submitNewReg(){
             form.reset();
             callPopup("Registro salvo com êxito!");
             setTabRegValues();
+            setRegCardValues();
             return
         }
 
@@ -128,30 +135,47 @@ function submitNewReg(){
     })
 }
 
-function setTabRegValues(){
-    let type = document.getElementById('select-typeRegistro').value;
-    let table = document.getElementById('table-reg-body');
-
-    $.get("tabRegValues", {'type':type, 'returnType':''}).done(
+function setRegCardValues(){
+    $.get("regCardValues").done(
         function(response){
-            response = JSON.parse(response).reverse();
-            console.log(response);
-            let html = "";
-
-            for(i in response){
-                let row = response[i];
-                html += `<tr><td></td><td hidden>${row.id}</td> <td>${row.categoria}</td><td>${row.data}</td><td>${row.valor}</td><td>${row.descricao}</td><td><i class="bi bi-trash"></i></td></tr>`
-            }
-            table.innerHTML = html;
-            // let j_row = JSON.parse(response);
-            // console.log(j_row);
-            // for(row in response){
-            // }
+            response = JSON.parse(response);
             
-            // response = "id,categoria,data,valor,descricao";
+            // entradas
+            if(response['contagem_entradas'] == 1){
+                $('#card-entradas .description').text(`${response['contagem_entradas']} registro`);
+            } else {
+                $('#card-entradas  .description').text(`${response['contagem_entradas']} registros`);
+            }
+            $('#card-entradas .value').text(`R$: ${response['total_entradas']}`);
+            
+            // saídas
+            if(response['contagem_saidas'] == 1){
+                $('#card-saidas .description').text(`${response['contagem_saidas']} registro`);
+            } else {
+                $('#card-saidas .description').text(`${response['contagem_saidas']} registros`);
+            }
+            $('#card-saidas .value').text(`R$: ${response['total_saidas']}`);
+            
+            // total
+            $('#card-total .value').text(`R$: ${response['total']}`);
+        }
+    )
+}
 
-            // response.split(',');
-            // j_response = JSON.parse(response);
-            // `<tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>`
-    })
+function setTabRegValues(){
+    reg.getTabValues();
+    // let type = document.getElementById('select-typeRegistro').value;
+    // let table = document.getElementById('table-reg-body');
+
+    // $.get("tabRegValues", {'type':type, 'returnType':''}).done(
+    //     function(response){
+    //         response = JSON.parse(response).reverse();
+    //         let html = "";
+
+    //         for(i in response){
+    //             let row = response[i];
+    //             html += `<tr><td></td><td hidden>${row.id}</td> <td>${row.categoria}</td><td>${row.data}</td><td>${row.valor}</td><td>${row.descricao}</td><td><i class="bi bi-trash"></i></td></tr>`
+    //         }
+    //         table.innerHTML = html;
+    //     })
 }

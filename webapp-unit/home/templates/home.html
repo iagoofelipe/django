@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{% static 'home/js/script.js' %}"></script>
+    <script type="module" src="{% static 'home/js/script.js' %}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
 
@@ -41,20 +41,20 @@
         <main class="container-main">
             <div id="container-registros">
                 <div class="cards-info">
-                    <div class="card card-info" id="card-saidas">
+                    <div class="card card-info" id="card-total">
                         <p class="title">total</p>
-                        <h1 class="value">R$: 3.500,00</h1>
+                        <h1 class="value">R$: 0.00</h1>
                         <p class="description">entradas e saídas</p>
                     </div>
-                    <div class="card card-info" id="card-total">
-                        <p class="title">entradas</p>
-                        <h1 class="value">R$: 13.000,00</h1>
-                        <p class="description">10 registros</p>
-                    </div>
                     <div class="card card-info" id="card-entradas">
+                        <p class="title">entradas</p>
+                        <h1 class="value">R$: 0.00</h1>
+                        <p class="description">0 registros</p>
+                    </div>
+                    <div class="card card-info" id="card-saidas">
                         <p class="title">saídas</p>
-                        <h1 class="value">R$: 9.500,00</h1>
-                        <p class="description">35 registros feitos</p>
+                        <h1 class="value">R$: 0.00</h1>
+                        <p class="description">0 registros</p>
                     </div>
                 </div>
                 <div class="div-select">
