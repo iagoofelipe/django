@@ -34,6 +34,7 @@ body {
     padding: var(--width-border);
     height: 100vh;
     width: 100vw;
+    overflow: auto;
 }
 
 #pop-up {
@@ -57,6 +58,20 @@ body {
     width: 100%;
 }
 /*-container-main---------------------------------------*/
+.card-table-head, .card-table-head .element-title, .card-table-head .icons {
+    display: flex;
+    align-items: center;
+}
+
+.card-table-head .element-title {
+    padding: 0;
+}
+
+.card-table-head {
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+}
 
 .card {
     margin-top: var(--width-border);
@@ -75,13 +90,15 @@ body {
 .card:hover {
     transform: scale(1.01);
 }
-.card h1 {
-    padding-bottom: 10px;
-    font-weight: 400;
-}
 
 .card .card-element {
     width: 100%;
+}
+
+.element-title {
+    font-size: 12pt;
+    font-weight: 400;
+    padding-bottom: 10px;
 }
 
 .cards-info {
@@ -139,7 +156,8 @@ body {
     padding: 20px 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    margin: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
     transition-duration: .2s;
 }
 

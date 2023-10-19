@@ -1,14 +1,3 @@
 #container-registros .card-info {
     width: 31%;
 }
-
-#table-reg {
-    margin-top: 10px;
-}
-
-#container-registros .div-select {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    width: 100%;
-}

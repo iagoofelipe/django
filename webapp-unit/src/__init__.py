@@ -7,3 +7,5 @@ def checkUserAccess(request, access_permited):
     if user.acesso.nome == access_permited:
         return True
     raise PermissionDenied()
+
+from .util import Util

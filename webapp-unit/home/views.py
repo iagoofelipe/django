@@ -9,93 +9,84 @@ from django.urls import path
 
 from .forms import FormNovoRegistro
 
-@login_required(login_url='/login/')
-def index(request):
-    user = User.objects.filter(username=request.user).first()
-    usuario = MyUser.objects.filter(username=user).first()
+from src.Acessos import AcessosModel, urlpatterns as url_acessos
+from src.Registros import Registros, urlpatterns as url_registros
+
+class HomeView(object):
+    def index(request):
+        if not request.user.is_authenticated:
+            return redirect('/login/')
+
+        user = User.objects.filter(username=request.user).first()
+        usuario = MyUser.objects.filter(username=user).first()
+        
+        if usuario:
+            fullname = usuario.fullname.split(' ')[0].title()
+            cargo = usuario.cargo
+        else:
+            fullname = 'Usuário'
+            cargo = 'cargo'
+
+        acessos = set(map(lambda i: i.nome, AcessosModel.objects.all()))
+        values = Registros.card_values()
+        return render(request, 'home.html', {'user':fullname, 'cargo':cargo, 'acessos':acessos, 'values':values})
+
+
+# @login_required(login_url='/login/')
+# def tabRegValues(request):
+#     _type = request.GET.get('type')
+
+#     if _type == 'entradas':
+#         model = Entradas
+#     elif _type == "saidas":
+#         model = Saidas
+#     else:
+#         return HttpResponse("UnknownType")
     
-    if usuario:
-        fullname = usuario.fullname.split(' ')[0].title()
-        cargo = usuario.cargo
-    else:
-        fullname = 'Usuário'
-        cargo = 'cargo'
+#     num_popu = model.objects.count()
+#     try:
+#         values = model.objects.all()[num_popu-10:num_popu]
+#     except ValueError:
+#         values = model.objects.all()[:10]
 
-    acessos = set(map(lambda i: i.nome, Acessos.objects.all()))
-    values = _regCardValues()
+#     value = '['
+#     for row in values:
+#         data = row.data.strftime('%d/%m/%Y')
+#         value += '{"id":'+str(row.pk)+', "categoria":"'+row.categoria+'", "data":"'+data+'", "valor":'+str(row.valor)+', "descricao":"'+row.descricao+'"},'
 
-    return render(request, 'home.html', {'user':fullname, 'cargo':cargo, 'acessos':acessos, 'values':values})
+#     # ignorando última vírugla
+#     value = value[:-1]
+#     value += ']'
+#     '[{"key":"content"}, {"key":"content"}]'
+#     return HttpResponse(value)
 
-@login_required(login_url='/login/')
-def form_new_registro(request):
-    """ utilizado como método POST """
-    if request.method != "POST":
-        return HttpResponse('null')
-    
-    form = FormNovoRegistro(request.POST)
-    if not form.is_valid():
-        return HttpResponse('missingData')
-    
-    user = User.objects.filter(username=request.user).first()
-    usuario = MyUser.objects.filter(username=user).first()
+# @login_required(login_url='/login/')
+# def regCardValues(request):
+#     values = str(_regCardValues()).replace("'",'"')
+    # return HttpResponse(values)
 
-    form.save(usuario)
-    return HttpResponse('200')
+# def _regCardValues():
+#     total_entradas, total_saidas = 0, 0
+#     contagem_entradas = Entradas.objects.count()
+#     contagem_saidas = Saidas.objects.count()
+
+#     for i in Entradas.objects.all():
+#         total_entradas += i.valor
+
+#     for i in Saidas.objects.all():
+#         total_saidas += i.valor
+
+#     values = {
+#         'contagem_entradas':contagem_entradas, 
+#         'contagem_saidas':contagem_saidas, 
+#         'total_entradas':float(total_entradas), 
+#         'total_saidas':float(total_saidas),
+#         'total': float(total_entradas + total_saidas),
+#     }
+
+#     return values
 
 
-@login_required(login_url='/login/')
-def tabRegValues(request):
-    _type = request.GET.get('type')
-    returnType = request.GET.get('returnType')
-
-    if _type == 'entradas':
-        model = Entradas
-        # values = (Entradas.objects.all().reverse()[1:11])
-    elif _type == "saidas":
-        model = Saidas
-        # values = (Saidas.objects.all().[1:11])
-    else:
-        return HttpResponse("UnknownType")
-    
-    num_popu = model.objects.count()
-    try:
-        values = model.objects.all()[num_popu-10:num_popu]
-    except ValueError:
-        values = model.objects.all()[:10]
-
-    value = '['
-    for row in values:
-        data = row.data.strftime('%d/%m/%Y')
-        value += '{"id":'+str(row.pk)+', "categoria":"'+row.categoria+'", "data":"'+data+'", "valor":'+str(row.valor)+', "descricao":"'+row.descricao+'"},'
-
-    # ignorando última vírugla
-    value = value[:-1]
-    value += ']'
-    '[{"key":"content"}, {"key":"content"}]'
-    return HttpResponse(value)
-
-@login_required(login_url='/login/')
-def regCardValues(request):
-    values = str(_regCardValues()).replace("'",'"')
-    return HttpResponse(values)
-
-def _regCardValues():
-    total_entradas, total_saidas = 0, 0
-    contagem_entradas = Entradas.objects.count()
-    contagem_saidas = Saidas.objects.count()
-
-    for i in Entradas.objects.all():
-        total_entradas += i.valor
-
-    for i in Saidas.objects.all():
-        total_saidas += i.valor
-
-    values = {
-        'contagem_entradas':contagem_entradas, 
-        'contagem_saidas':contagem_saidas, 
-        'total_entradas':str(total_entradas), 
-        'total_saidas':str(total_saidas),
-        'total': str(total_entradas + total_saidas),
-    }
-
-    return values
+urlpatterns = url_acessos + url_registros + [
+        path('', HomeView.index, name='index')
+    ]

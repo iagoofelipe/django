@@ -8,7 +8,9 @@
     <title>Unit - Home</title>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js">
+        
+    </script>
     <script type="module" src="{% static 'home/js/script.js' %}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
@@ -25,13 +27,13 @@
                 <p>UNIT</p>
             </div>
             <ul id="nav-items">
-                <li id="item-dashboard" class="nav-item" onclick="navItemClick(this)">dashboard</li>
-                <li id="item-registros" class="nav-item" onclick="navItemClick(this)">registros</li>
-                <li id="item-acessos" class="nav-item" onclick="navItemClick(this)">acessos</li>
+                <li id="item-dashboard" class="nav-item" onclick="script.navBar.navItemClick(this)">dashboard</li>
+                <li id="item-registros" class="nav-item" onclick="script.navBar.navItemClick(this)">registros</li>
+                <li id="item-acessos" class="nav-item" onclick="script.navBar.navItemClick(this)">acessos</li>
             </ul>
             <div id="container-nav-right">
                 <i class="bi bi-gear-fill"></i>
-                <i class="bi bi-box-arrow-right" id="btn-logout" style="cursor: pointer" onclick="logout()"></i>
+                <i class="bi bi-box-arrow-right" id="btn-logout" style="cursor: pointer"></i>
                 <div>
                     <p id="username">{{user}}</p>
                     <p id="cargo">{{cargo}}</p>
@@ -57,13 +59,17 @@
                         <p class="description">0 registros</p>
                     </div>
                 </div>
-                <div class="div-select">
-                    <select name="select-typeRegistro" id="select-typeRegistro" title="tipo de registro" onchange="setTabRegValues()">
-                        <option value="entradas">entradas</option>
-                        <option value="saidas">saídas</option>
-                    </select>
-                    <a href="#card-new-reg"><i class="bi bi-plus" style="font-size: 15pt;"></i></a>
-                    <i class="bi bi-pencil" style="font-size: 10pt;"></i>
+                <div class="card-table-head">
+                    <h1 class="element-title">registros salvos</h1>
+                    <div class="icons">
+                        <i class="bi bi-arrow-clockwise" id="reload-tabReg" style="font-size: 15pt;"></i>
+                        <a href="#card-new-reg"><i class="bi bi-plus" style="font-size: 25pt;"></i></a>
+                        <!-- <i class="bi bi-pencil" style="font-size: 10pt;"></i> -->
+                        <select name="select-typeRegistro" id="select-typeRegistro" title="tipo de registro">
+                            <option value="entradas">entradas</option>
+                            <option value="saidas">saídas</option>
+                        </select>
+                    </div>
                 </div>
                 <table class="card-table" id="table-reg" cellspacing="0">
                     <thead class="card-table-thead">
@@ -75,12 +81,6 @@
                         <td></td>
                     </thead>
                     <tbody id="table-reg-body">
-                        <tr><td></td><td hidden>1</td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                        <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                        <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                        <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                        <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
-                        <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
                         <tr><td></td><td>OUTROS</td><td>23/10/2023</td><td>12,00</td><td>descrição do registro</td><td><i class="bi bi-trash"></i></td></tr>
                     </tbody>
                     <tfoot>
@@ -93,7 +93,7 @@
                 </table>
                 <div class="card" id="card-new-reg">
                     <h1 class="element-title">novo registro</h1>
-                    <form action="javascript: submitNewReg();" method="post" id="form-reg" class="card-form">
+                    <form action="javascript: script.reg.newReg();" method="post" id="form-reg" class="card-form">
                         {% csrf_token %}
                         <select name="typeRegistro" id="id_typeRegistro" title="tipo de registro">
                             <option value="entradas">entradas</option>
@@ -112,9 +112,10 @@
                 </div>
             </div>
             <div id="container-acessos">
-                <div class="card card-cad-user">
+                <div class="card">
                     <h1 class="element-title">cadastrar usuário</h1>
-                    <form id="form-cadastrar" action="javascript: cadastrarUsuario();">
+                    <!-- <form id="form-cadastrar"> -->
+                    <form id="form-cadastrar" class="card-form" action="javascript: script.acessos.cadastrarUsuario();">
                         {% csrf_token %}
                         <table class="card-element">
                             <tr><td colspan="2">
@@ -124,24 +125,49 @@
                                     {% endfor %}
                                 </select>
                             </td></tr>
-                            <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" class="table-input table-input-text" name="cargo" maxlength="100"></td></tr>
-                            <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" id="in-fullname" type="text" class="table-input table-input-text" name="fullname" maxlength="100"></td></tr>
+                            <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" name="cargo" maxlength="100"></td></tr>
+                            <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" id="in-fullname" type="text" name="fullname" maxlength="100"></td></tr>
                             <tr>
-                                <td><input title="senha" placeholder="*senha" type="password" id="in-password" name="password" class="table-input table-input-text" maxlength="100"></td>
-                                <td><input title="confirmação da senha" placeholder="*senha (confirmação)" type="password" id="in-password-confirm" name="password-confirm" class="table-input table-input-text" maxlength="100"></td>
+                                <td><input title="senha" placeholder="*senha" type="password" id="in-password" name="password" maxlength="100"></td>
+                                <td><input title="confirmação da senha" placeholder="*senha (confirmação)" type="password" id="in-password-confirm" name="password-confirm" maxlength="100"></td>
                             </tr>
-                            <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" type="text" id="in-username" class="table-input table-input-text" name="username"  maxlength="100"></td></tr>
-                            <tr><td colspan="2"><input title="CPF" placeholder="CPF" type="number" id="in-cpf" class="table-input table-input-text" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
-                            <tr><td colspan="2"><input title="e-mail" placeholder="e-mail" type="text" id="in-email" class="table-input table-input-text" name="email" maxlength="30"></td></tr>
-                            <tr><td colspan="2"><input title="telefone" placeholder="telefone" type="number" id="in-telefone" class="table-input table-input-text" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
-                            <tr><td colspan="2"><input title="data de nascimento" type="date" id="in-nascimento" class="table-input table-input-text" name="nascimento"></td></tr>
-                            <tr><td colspan="2"><input type="submit" value="cadastrar" id="form-cadastrar-btn-submit" class="table-input" ></td></tr>
+                            <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" type="text" id="in-username" name="username"  maxlength="100"></td></tr>
+                            <tr><td colspan="2"><input title="CPF" placeholder="CPF" type="number" id="in-cpf" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
+                            <tr><td colspan="2"><input title="e-mail" placeholder="e-mail" type="text" id="in-email" name="email" maxlength="30"></td></tr>
+                            <tr><td colspan="2"><input title="telefone" placeholder="telefone" type="number" id="in-telefone" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
+                            <tr><td colspan="2"><input title="data de nascimento" type="date" id="in-nascimento" name="nascimento"></td></tr>
+                            <tr><td colspan="2"><input type="submit" value="cadastrar" id="form-cadastrar-btn-submit"></td></tr>
                         </table>
                     </form>
                 </div>
-                <div class="card card-cadastrados">
+                <div class="card-table-head">
                     <h1 class="element-title">usuários cadastrados</h1>
+                    <div class="icons">
+                        <i class="bi bi-arrow-clockwise" id="reload-tabCad" style="font-size: 15pt;"></i>
+                    </div>
                 </div>
+                <table class="card-table card-cadastrados" id="table-cad" cellspacing="0">
+                    <thead class="card-table-thead">
+                        <td></td>
+                        <td>nome</td>
+                        <td>cargo</td>
+                        <td>acesso</td>
+                        <td>usuário</td>
+                        <td>e-mail</td>
+                        <td></td>
+                    </thead>
+                    <tbody id="table-cad-body">
+                        <!-- inserido via JS -->
+                        <tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td><i class="bi bi-trash"></i></td> </tr>
+                    </tbody>
+                    <tfoot>
+                        <td colspan="99">
+                            <i class="bi bi-arrow-left-short"></i>
+                            1 a 10
+                            <i class="bi bi-arrow-right-short"></i>
+                        </td>
+                    </tfoot>
+                </table>
             </div>
         </main>
     </div>
