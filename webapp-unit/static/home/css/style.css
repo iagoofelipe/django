@@ -165,13 +165,13 @@ body {
     background-color: #e6e6e6;
 }
 
-.card-form input[type="submit"] {
+.card-form input[type="submit"], .card-form input[type="button"] {
     background-color: var(--primary-color);
     color: #fff;
     padding: 10px 0;
 }
 
-.card-form input[type="submit"]:hover {
+.card-form input[type="submit"]:hover, .card-form input[type="button"]:hover {
     background-color: var(--background-color-hover);
 }
 /* - */

@@ -1,6 +1,6 @@
 import { callPopup } from "/static/src.js";
 
-class Registros {
+export default class Registros {
     container_id = 'container-registros';
     table = document.getElementById('table-reg-body');
 
@@ -19,7 +19,6 @@ class Registros {
         /* atualizando valores da tabela */
         let type = this.typeRegistro;
 
-        // $.get("tabRegValues", {'type':type, 'limit':10}).done(
         $.get("registros/registros_salvos", {'type':type, 'limit':10, 'reverse':'true'}).done(
             (response) => {
                 this.tabValues = JSON.parse(response);
@@ -27,7 +26,6 @@ class Registros {
                 this.setCardValues();
             }
         )
-
     }
 
     setTabValues() {
@@ -92,5 +90,3 @@ class Registros {
         })
     }
 }
-
-export default Registros;

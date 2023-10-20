@@ -1,4 +1,5 @@
 from typing import Sequence
+from datetime import datetime as dt
 
 class Util(object):
     def dict_to_json_str(obj:dict|Sequence[dict]) -> str:
@@ -6,7 +7,7 @@ class Util(object):
             return None
         
         if type(obj) == dict:
-            return str(obj).replace("'",'"')
+            return str(obj).replace("'",'"').replace('None','""')
 
         r = "["
         for i in obj:
@@ -40,3 +41,8 @@ class Util(object):
             values = reversed(values)
 
         return values
+    
+    def formatdate(dateObj) -> str | None:
+        if dateObj == None:
+            return None
+        return dt.strftime(dateObj, "%d/%m/%Y")

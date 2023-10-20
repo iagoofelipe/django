@@ -1,13 +1,29 @@
-import { callPopup } from "/static/src.js";
+import { callPopup, getUserData } from "/static/src.js";
 
 export default class Acessos {
     #break_required = false;
     table_cadastrados = document.getElementById('table-cad-body');
+    $card_editar_user = $('#card-editar-user');
+    $card_cad_user = $('#card-cad-user');
 
     constructor() {
         $('#reload-tabCad').click(() => {this.getCadastrados()});
-        $('#card-editar-user').hide();
+        $('#form-editar-cad .btn-cancelar').click(() => {this.changeCardForm('cadastrar')});
+
+        this.$card_editar_user.hide();
         this.getCadastrados();
+    }
+
+    changeCardForm(cardName) {
+        if(cardName == 'cadastrar') {
+            this.$card_cad_user.show();
+            this.$card_editar_user.hide();
+        } else if(cardName == 'editar') {
+            this.$card_editar_user.show();
+            this.$card_cad_user.hide();
+        }
+        document.getElementById('form-cadastrar').reset();
+        document.getElementById('form-editar-cad').reset();
     }
 
     cadastrarUsuario() {
@@ -33,19 +49,7 @@ export default class Acessos {
         }
     
         // enviar request
-        let data = {
-            'csrfmiddlewaretoken': form['csrfmiddlewaretoken'].value,
-            'type': 'user',
-            'acesso': form.acesso.value,
-            'cargo': form.cargo.value,
-            'fullname': form.fullname.value.toUpperCase(),
-            'password': form.password.value,
-            'username': form.username.value,
-            'cpf': form.cpf.value,
-            'email': form.email.value,
-            'telefone': form.telefone.value,
-            'nascimento': form.nascimento.value
-        }
+        let data = getUserData(form);
     
         $.post('/login/cadastro', data).done((r) => {
             callPopup(r);
@@ -66,7 +70,54 @@ export default class Acessos {
     }
 
     editarUsuario(id) {
-        console.log(id);
+        $.get("acessos/cadastrado", {'id':id, 'dateformat':'%Y-%m-%d'}).done(
+            (response) => {
+                console.log(response);
+                response = JSON.parse(response);
+                if("error" in response) {
+                    callPopup(response["error"] + ", atualize a página e tente novamente!");
+                    return
+                }
+
+                this.changeCardForm('editar');
+                this.paraEditar = response;
+                
+                let form = document.getElementById('form-editar-cad');
+                form.acesso.value = response['acesso'];
+                form.cargo.value = response['cargo'];
+                form.fullname.value = response['fullname'];
+                form.username.value = response['username'];
+                form.cpf.value = response['cpf'];
+                form.email.value = response['email'];
+                form.telefone.value = response['telefone'];
+                form.nascimento.value = response['nascimento'];
+            }
+        )
+    }
+
+    editarUsuarioForm() {
+        // verificando se a senha foi digitada
+        let form = document.getElementById('form-editar-cad');
+        if(form.password.value != form['password-confirm'].value) {
+            callPopup('As senhas não correspondem!');
+            return
+        }
+
+        if(form.password.value) {
+            if(!confirm('A senha cadastrada anteriormente será perdida, deseja prosseguir?')) {
+                return
+            }
+        }
+        
+        let data = getUserData(form);
+        $.post('acessos/editar_usuario', data).done((r) => {
+            callPopup(r);
+            if('usuário editado com sucesso!' == r){
+                form.reset();
+                this.getCadastrados();
+                this.changeCardForm('cadastrar');
+            }
+        });
     }
 
     setCadastrados() {

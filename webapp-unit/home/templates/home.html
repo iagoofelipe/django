@@ -98,7 +98,7 @@
             </div>
         </div>
         <div id="container-acessos">
-            <div class="card">
+            <div class="card" id="card-cad-user">
                 <h1 class="element-title">cadastrar usuário</h1>
                 <!-- <form id="form-cadastrar"> -->
                 <form id="form-cadastrar" class="card-form" action="javascript: script.acessos.cadastrarUsuario();">
@@ -111,13 +111,13 @@
                                 {% endfor %}
                             </select>
                         </td></tr>
-                        <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" name="cargo" maxlength="100"></td></tr>
-                        <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" id="in-fullname" type="text" name="fullname" maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" required type="text" name="cargo" maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input title="nome completo" required placeholder="*nome completo" id="in-fullname" type="text" name="fullname" maxlength="100"></td></tr>
                         <tr>
-                            <td><input title="senha" placeholder="*senha" type="password" id="in-password" name="password" maxlength="100"></td>
-                            <td><input title="confirmação da senha" placeholder="*senha (confirmação)" type="password" id="in-password-confirm" name="password-confirm" maxlength="100"></td>
+                            <td><input title="senha" placeholder="*senha" type="password" id="in-password" required name="password" maxlength="100"></td>
+                            <td><input title="confirmação da senha" placeholder="*senha (confirmação)" required type="password" id="in-password-confirm" name="password-confirm" maxlength="100"></td>
                         </tr>
-                        <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" type="text" id="in-username" name="username"  maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" required type="text" id="in-username" name="username"  maxlength="100"></td></tr>
                         <tr><td colspan="2"><input title="CPF" placeholder="CPF" type="number" id="in-cpf" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
                         <tr><td colspan="2"><input title="e-mail" placeholder="e-mail" type="text" id="in-email" name="email" maxlength="30"></td></tr>
                         <tr><td colspan="2"><input title="telefone" placeholder="telefone" type="number" id="in-telefone" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
@@ -132,24 +132,24 @@
                     {% csrf_token %}
                     <table class="card-element">
                         <tr><td colspan="2">
-                            <select title="nível de acesso" name="acesso">
+                            <select title="nível de acesso" required name="acesso">
                                 {% for acesso in acessos %}
                                 <option>{{acesso}}</option>
                                 {% endfor %}
                             </select>
                         </td></tr>
-                        <tr><td colspan="2"><input placeholder="*cargo" id="in-cargo" type="text" name="cargo" maxlength="100"></td></tr>
-                        <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" type="text" name="fullname" maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input placeholder="*cargo" type="text" name="cargo" required maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input title="nome completo" placeholder="*nome completo" required type="text" name="fullname" maxlength="100"></td></tr>
                         <tr>
                             <td><input title="senha" placeholder="*senha" type="password" name="password" maxlength="100"></td>
                             <td><input title="confirmação da senha" placeholder="*senha (confirmação)" type="password" name="password-confirm" maxlength="100"></td>
                         </tr>
-                        <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" type="text" name="username"  maxlength="100"></td></tr>
+                        <tr><td colspan="2"><input title="nome de usuário" placeholder="*nome de usuário" required type="text" name="username"  maxlength="100"></td></tr>
                         <tr><td colspan="2"><input title="CPF" placeholder="CPF" type="number" name="cpf" maxlength="11" placeholder="12345678901"></td></tr>
                         <tr><td colspan="2"><input title="e-mail" placeholder="e-mail" type="text" name="email" maxlength="30"></td></tr>
                         <tr><td colspan="2"><input title="telefone" placeholder="telefone" type="number" name="telefone" placeholder="61912345678" maxlength="11"></td></tr>
                         <tr><td colspan="2"><input title="data de nascimento" type="date" name="nascimento"></td></tr>
-                        <tr><td colspan="2"><input type="submit" value="cadastrar" id="form-editar-cad-btn-submit"></td></tr>
+                        <tr><td><input type="submit" value="editar" id="form-editar-cad-btn-submit"></td><td><input type="button" value="cancelar" class="btn-cancelar"></td></tr>
                     </table>
                 </form>
             </div>
