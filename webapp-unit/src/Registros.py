@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.urls import path
+from datetime import datetime as dt
 
 from home.models import MyUser, Acessos as AcessosModel, Entradas, Saidas
 from home.forms import FormNovoRegistro
@@ -24,9 +25,9 @@ class Registros(object):
         values = {
             'contagem_entradas':contagem_entradas, 
             'contagem_saidas':contagem_saidas, 
-            'total_entradas':float(total_entradas), 
-            'total_saidas':float(total_saidas),
-            'total': float(total_entradas + total_saidas),
+            'total_entradas':f'{float(total_entradas):.2f}', 
+            'total_saidas':f'{float(total_saidas):.2f}',
+            'total': f'{float(total_entradas + total_saidas):.2f}',
         }
 
         return values
@@ -61,15 +62,25 @@ class Registros(object):
         
         _type = request.GET.get('type')
         limit = request.GET.get('limit')
+        reverse = bool(request.GET.get('reverse'))
+
+        if limit:
+            limit = int(limit)
 
         if _type == 'entradas':
             model = Entradas
         elif _type == "saidas":
             model = Saidas
         else:
-            return HttpResponse("UnknownType")
+            return HttpResponse('{"error":"UnknownType"}')
+        values = Util.getModelValues(model, limit=limit, order_by_last=True, reverse=reverse)
+        data = []
+
+        for registro in values:
+            data.append(dict(categoria=registro.categoria, data=dt.strftime(registro.data, '%d/%m/%Y'), valor=str(registro.valor), descricao=registro.descricao))
         
-        return HttpResponse(Util.dict_to_json_str(Util.getModelValues(model, limit=limit, order_by_last=True, reverse=True)))
+        
+        return HttpResponse(Util.dict_to_json_str(data))
         
 
     

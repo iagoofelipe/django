@@ -28,9 +28,22 @@ class HomeView(object):
             cargo = 'cargo'
 
         acessos = set(map(lambda i: i.nome, AcessosModel.objects.all()))
-        values = Registros.card_values()
+        values = Registros._card_values()
         return render(request, 'home.html', {'user':fullname, 'cargo':cargo, 'acessos':acessos, 'values':values})
 
+def graficos(request):
+    labels = []
+    data = []
+
+    queryset = MyUser.objects.all()[:5]
+    for user in queryset:
+        labels.append(user.username)
+        data.append(user.acesso)
+
+    return render(request, 'grafico.html', {
+        'labels': labels,
+        'data': data,
+    })
 
 # @login_required(login_url='/login/')
 # def tabRegValues(request):
@@ -88,5 +101,6 @@ class HomeView(object):
 
 
 urlpatterns = url_acessos + url_registros + [
-        path('', HomeView.index, name='index')
+        path('', HomeView.index, name='index'),
+        path('population-chart', graficos, name='population-chart'),
     ]

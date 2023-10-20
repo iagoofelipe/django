@@ -16,19 +16,27 @@ class Util(object):
         r = r[:-1].replace('None','""') + "]"
         return r
     
-    def getModelValues(model, limit=None, order_by_last=False, reverse=False, **kwargs):
+    def getModelValues(model, request=None, limit=None, order_by_last=False, reverse=False, **kwargs):
+        if request:
+            limit = request.get('limit')
+            order_by_last = request.get('order_by_last')
+            reverse = request.get('reverse')
+
         count = model.objects.count()
         limit = count if not limit else limit
+
+        limit = int(limit)
 
         # verificando se a quantidade de dados é suficiente para o limit, caso não, todos serão retornados
         if limit >= count:
             values = model.objects.all()
-        
-        if order_by_last:
-            values = model.objects.all()[count-limit:]
         else:
-            values = model.objects.all()[:limit]
+            if order_by_last:
+                values = model.objects.all()[count-limit:]
+            else:
+                values = model.objects.all()[:limit]
 
         if reverse:
             values = reversed(values)
+
         return values

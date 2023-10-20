@@ -20,9 +20,9 @@ class Registros {
         let type = this.typeRegistro;
 
         // $.get("tabRegValues", {'type':type, 'limit':10}).done(
-        $.get("registros/registros_salvos", {'type':type, 'limit':10}).done(
+        $.get("registros/registros_salvos", {'type':type, 'limit':10, 'reverse':'true'}).done(
             (response) => {
-                this.tabValues = JSON.parse(response).reverse();
+                this.tabValues = JSON.parse(response);
                 this.setTabValues();
                 this.setCardValues();
             }

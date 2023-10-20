@@ -6,6 +6,7 @@ export default class Acessos {
 
     constructor() {
         $('#reload-tabCad').click(() => {this.getCadastrados()});
+        $('#card-editar-user').hide();
         this.getCadastrados();
     }
 
@@ -56,12 +57,16 @@ export default class Acessos {
     }
 
     getCadastrados() {
-        $.get("acessos/cadastrados", {'limit':'', 'reverse':'true', 'order_by_last':'true'}).done(
+        $.get("acessos/cadastrados", {'limit':'', 'reverse':'true', 'order_by_last':'true', 'resume':'true'}).done(
             (response) => {
                 this.cadastrados = JSON.parse(response);
                 this.setCadastrados();
             }
         )
+    }
+
+    editarUsuario(id) {
+        console.log(id);
     }
 
     setCadastrados() {
@@ -70,7 +75,7 @@ export default class Acessos {
 
         for(i in this.cadastrados){
             let row = this.cadastrados[i];
-            html += `<tr> <td></td> <td>${row.fullname}</td> <td>${row.cargo}</td> <td>${row.acesso}</td> <td>${row.username}</td>  <td>${row.email}</td> <td></td> </tr>`
+            html += `<tr> <td></td> <td>${row.fullname}</td> <td>${row.cargo}</td> <td>${row.acesso}</td> <td>${row.username}</td>  <td>${row.email}</td> <td><i onclick="script.acessos.editarUsuario(${row.id})" class="fa-solid fa-pen-to-square" style="color: #3D3D3D; cursor: pointer;"></i></td> </tr>`
         }
         this.table_cadastrados.innerHTML = html;
     }
